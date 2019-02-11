@@ -15,34 +15,34 @@
           <hr />
           <div class="form-group">
             <label>Vert : </label>
-            <input class="form-control" type="number" />
+            <input class="form-control" type="number" v-model="vert" />
           </div>
           <hr />
           <div class="form-group">
             <label>Bleu : </label>
-            <input class="form-control" type="number" />
+            <input class="form-control" type="number" v-model="bleu"/>
           </div>
           <hr />
           <div class="form-group">
             <label>Rouge :</label>
-            <input class="form-control" type="number" />
+            <input class="form-control" type="number" v-model="rouge" />
           </div>
           <hr />
           <div class="col-12">
-            <button class="btn btn-primary">Sauvegarder</button>
-            <button class="btn btn-secondary">Annuler</button>
+            <button class="btn btn-primary" @click="save()">Sauvegarder</button>
+            <button class="btn btn-secondary" @click="reset()">Annuler</button>
           </div>
           <hr />
-            <h3> Nombre de carrés : </h3>
+            <h3> Nombre de carrés : {{squares.length}}</h3>
           <hr />
           <div class="col-12">
-            <div class="prevsquare"></div>
+            <div class="prevsquare" v-for="(square, index) in squares" :style="{backgroundColor:square}" @click="selectedSquare=square"></div>
           </div>
           <h3 > Ajouter des couleurs !</h3>
         </div>
       </div>
       <div class="col-6">
-        <div class="square mx-auto" ></div>
+        <div class="square mx-auto" :style="{backgroundColor:selectedSquare}"></div>
       </div>
     </div>
   </div>
@@ -51,6 +51,31 @@
     new Vue({
       el:'#app',
       data: {
+        rouge:0,
+        vert:0,
+        bleu:0,
+        squares:[],
+        selectedSquare:'',
+      },
+      methods : {
+        resetColor() {
+          this.rouge = 0;
+          this.vert = 0;
+          this.bleu = 0;
+          this.selectedSquare='';
+        },
+        save() {
+          this.squares.push(`rgb(${this.rouge}, ${this.vert}, ${this.bleu}`);
+          console.log(this.squares);
+          this.resetColor();
+        },
+        reset() {
+          this.squares = [];
+          this.resetColor();
+        },
+        propageCouleur() {
+          return this.square.index;
+        }
       }
     })
   </script>
